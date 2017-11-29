@@ -1,25 +1,23 @@
-[ ![Download](https://api.bintray.com/packages/bincrafters/public-conan/CryptoPP%3Abincrafters/images/download.svg?version=5.6.5%3Astable) ](https://bintray.com/bincrafters/public-conan/CryptoPP%3Abincrafters/5.6.5%3Astable/link)
-[![Build Status](https://travis-ci.org/bincrafters/conan-CryptoPP.svg?branch=stable%2F5.6.5)](https://travis-ci.org/bincrafters/conan-CryptoPP)
-[![Build status](https://ci.appveyor.com/api/projects/status/a5snyovachh6e8nh?svg=true)](https://ci.appveyor.com/project/BinCrafters/conan-CryptoPP)
+[ ![Download](https://api.bintray.com/packages/bincrafters/public-conan/cryptopp%3Abincrafters/images/download.svg?version=5.6.5%3Astable) ](https://bintray.com/bincrafters/public-conan/cryptopp%3Abincrafters/5.6.5%3Astable/link)
+[![Build Status](https://travis-ci.org/bincrafters/conan-cryptopp.svg?branch=stable%2F5.6.5)](https://travis-ci.org/bincrafters/conan-cryptopp)
+[![Build status](https://ci.appveyor.com/api/projects/status/a5snyovachh6e8nh?svg=true)](https://ci.appveyor.com/project/BinCrafters/conan-cryptopp)
 
+[Conan.io](https://conan.io) package for [cryptopp](https://github.com/someauthor/cryptopp) project
 
-
-[Conan.io](https://conan.io) package for [CryptoPP](https://github.com/someauthor/CryptoPP) project
-
-The packages generated with this **conanfile** can be found in [Bintray](https://bintray.com/bincrafters/public-conan/CryptoPP%3Abincrafters).
+The packages generated with this **conanfile** can be found in [Bintray](https://bintray.com/bincrafters/public-conan/cryptopp%3Abincrafters).
 
 ## For Users: Use this package
 
 ### Basic setup
 
-    $ conan install CryptoPP/5.6.5@bincrafters/stable
+    $ conan install cryptopp/5.6.5@bincrafters/stable
 
 ### Project setup
 
 If you handle multiple dependencies in your project is better to add a *conanfile.txt*
 
     [requires]
-    CryptoPP/5.6.5@bincrafters/stable
+    cryptopp/5.6.5@bincrafters/stable
 
     [generators]
     txt
@@ -46,7 +44,7 @@ The following command both runs all the steps of the conan file, and publishes t
 
 ## Upload
 
-    $ conan upload CryptoPP/5.6.5@bincrafters/stable --all -r bincrafters
+    $ conan upload cryptopp/5.6.5@bincrafters/stable --all -r bincrafters
 
 ## License
-[LICENSE_TYPE](LICENSE)
+[Boost](LICENSE)
