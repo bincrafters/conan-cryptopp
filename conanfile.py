@@ -68,7 +68,7 @@ class CryptoPPConan(ConanFile):
                     proj=project,
                     cfg=config,
                     toolset=toolset_versions[compiler_ver])
-            print(cmd)
+            self.output.info("Running command: %s" % cmd)
             self.run(cmd)
         for proj, conf in builds:
             _call_msbuild(proj, conf)
