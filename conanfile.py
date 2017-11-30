@@ -8,7 +8,7 @@ class CryptoPPConan(ConanFile):
     url = "https://github.com/bincrafters/conan-cryptopp"
     description = "Crypto++ Library is a free C++ class library of cryptographic schemes."
     sources_folder = "sources"
-    generators = ["cmake", "txt"]
+    generators = "cmake"
     settings = "os", "compiler", "build_type", "arch"
     license = "https://github.com/weidai11/cryptopp/blob/master/License.txt"
     options = {"shared": [True, False], "fPIC": [True, False]}
