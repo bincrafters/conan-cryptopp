@@ -10,7 +10,7 @@ class CryptoPPConan(ConanFile):
     sources_folder = "sources"
     generators = ["cmake", "txt"]
     settings = "os", "compiler", "build_type", "arch"
-    license = "Boost Software License 1.0"
+    license = "https://github.com/weidai11/cryptopp/blob/master/License.txt"
     options = {"shared": [True, False], "fPIC": [True, False]}
     default_options = "shared=False", "fPIC=True"
     exports_sources = "CMakeLists.txt"
@@ -41,6 +41,7 @@ class CryptoPPConan(ConanFile):
         cmake.build()
 
     def package(self):
+        self.copy(pattern="License*", dst="licenses", src=self.sources_folder, ignore_case=True, keep_path=False)
         self.copy(pattern="*.h", dst="include/cryptopp", src=".", keep_path=False)
         self.copy(pattern="*.so", dst="lib", src=".", keep_path=False)
         self.copy(pattern="*.dll", dst="bin", src=".", keep_path=False)
