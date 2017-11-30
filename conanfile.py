@@ -16,8 +16,6 @@ class CryptoPPConan(ConanFile):
     exports_sources = "CMakeLists.txt"
 
     def configure(self):
-        del self.settings.compiler.libcxx
-
         if self.settings.os == "Windows":
             self.options.remove("fPIC")
 
