@@ -1,6 +1,6 @@
 [ ![Download](https://api.bintray.com/packages/bincrafters/public-conan/cryptopp%3Abincrafters/images/download.svg?version=5.6.5%3Astable) ](https://bintray.com/bincrafters/public-conan/cryptopp%3Abincrafters/5.6.5%3Astable/link)
 [![Build Status](https://travis-ci.org/bincrafters/conan-cryptopp.svg?branch=stable%2F5.6.5)](https://travis-ci.org/bincrafters/conan-cryptopp)
-[![Build status](https://ci.appveyor.com/api/projects/status/a5snyovachh6e8nh?svg=true)](https://ci.appveyor.com/project/BinCrafters/conan-cryptopp)
+[![Build status](https://ci.appveyor.com/api/projects/status/j5avlw251ikgb0i1?svg=true)](https://ci.appveyor.com/project/BinCrafters/conan-cryptopp)
 
 [Conan.io](https://conan.io) package for [cryptopp](https://github.com/someauthor/cryptopp) project
 
