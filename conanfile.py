@@ -1,7 +1,6 @@
-from conans import ConanFile, ConfigureEnvironment
+from conans import ConanFile, ConfigureEnvironment, VisualStudioBuildEnvironment
 from conans import tools
 import os
-
 
 class CryptoPPConan(ConanFile):
     name = "cryptopp"
@@ -40,38 +39,18 @@ class CryptoPPConan(ConanFile):
             self.run('%s make test check' % env.command_line)
 
     def msvc_build(self):
-        if self.options.shared:
-            # for the shared library, one must build:
-            #   - the "cryptlib" project in "DLL-Import ${BUILD_TYPE}" configuration
-            #   - the "cryptdll" project in "DLL-Import ${BUILD_TYPE}" configuration
-            builds = [
-                ("cryptlib", "DLL-Import {}".format(self.settings.build_type)), 
-                ("cryptdll", "DLL-Import {}".format(self.settings.build_type))] 
-        else:
-            # for the static library, one must build:
-            #   - the "cryptlib" project in "${BUILD_TYPE}" configuration
-            builds = [
-                ("cryptlib", str(self.settings.build_type))]
-        def _call_msbuild(project, config):
-            toolset_versions = {
-                "10": "v100",    # MSVC 2010
-                "11": "v110",    # MSVC 2012
-                "12": "v120",    # MSVC 2013
-                "14": "v140",    # MSVC 2015
-                "15": "v141",    # MSVC 2017
-            }
-            compiler_ver = str(self.settings.compiler.version)
-            # tools.build_sln_command generates an incorrect command
-            cmd = "{vcvars} && msbuild cryptest.sln /t:{proj} /p:Configuration=\"{cfg}\" " \
-                  "/p:PlatformToolset={toolset}".format(
-                    vcvars=tools.vcvars_command(self.settings),
-                    proj=project,
-                    cfg=config,
-                    toolset=toolset_versions[compiler_ver])
-            self.output.info("Running command: %s" % cmd)
-            self.run(cmd)
-        for proj, conf in builds:
-            _call_msbuild(proj, conf)
+        env = VisualStudioBuildEnvironment(self)
+        with tools.environment_append(env.vars):
+            vcvars = tools.vcvars_command(self.settings)
+
+            build_command = tools.build_sln_command(self.settings, "cryptest.sln")
+            build_command = build_command.replace("x86", "Win32")
+
+            if self.options.shared:
+                build_command = build_command.replace('%s' % self.settings.build_type,
+                                                          '"DLL-Import %s"' % self.settings.build_type)
+            self.output.info("Build command: %s" % build_command)
+            self.run("%s && %s" % (vcvars, build_command))
 
     def build(self):
         if str(self.settings.os) != "Windows":
