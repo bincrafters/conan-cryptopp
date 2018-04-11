@@ -36,6 +36,8 @@ class CryptoPPConan(ConanFile):
         cmake = CMake(self)
         if self.settings.os != "Windows":
             cmake.definitions["CMAKE_POSITION_INDEPENDENT_CODE"] = self.options.fPIC
+        else:
+            cmake.definitions["CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS"] = self.options.shared
         cmake.definitions["BUILD_STATIC"] = not self.options.shared
         cmake.definitions["BUILD_SHARED"] = self.options.shared
         cmake.definitions["BUILD_TESTING"] = False
