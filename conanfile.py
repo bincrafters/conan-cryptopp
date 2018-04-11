@@ -1,33 +1,38 @@
-from conans import ConanFile, CMake
-from conans import tools
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+from conans import ConanFile, CMake, tools
 import os
+import shutil
+
 
 class CryptoPPConan(ConanFile):
     name = "cryptopp"
-    version = "5.6.5"
+    version = "7.0.0"
     url = "https://github.com/bincrafters/conan-cryptopp"
+    homepage = "https://github.com/weidai11/cryptopp"
+    license = "BSL-1.0"
     description = "Crypto++ Library is a free C++ class library of cryptographic schemes."
-    sources_folder = "sources"
-    generators = "cmake"
     settings = "os", "compiler", "build_type", "arch"
-    license = "https://github.com/weidai11/cryptopp/blob/master/License.txt"
     options = {"shared": [True, False], "fPIC": [True, False]}
     default_options = "shared=False", "fPIC=True"
-    exports_sources = "CMakeLists.txt"
+    generators = "cmake"
+    exports_sources = ["CMakeLists.txt", "CMakeLists.original.txt"]
+    exports = "LICENSE.md"
+    source_subfolder = "source_subfolder"
+
+    def source(self):
+        archive_file = 'CRYPTOPP_7_0_0'
+        url = 'https://github.com/weidai11/cryptopp/archive/%s.tar.gz' % archive_file
+        tools.get(url)
+        os.rename("cryptopp-%s" % archive_file, self.source_subfolder)
+        shutil.move("CMakeLists.original.txt", os.path.join(self.source_subfolder, "CMakeLists.txt"))
 
     def configure(self):
         if self.settings.os == "Windows":
             self.options.remove("fPIC")
 
-    def source(self):
-        zipname = 'CRYPTOPP_5_6_5.tar.gz'
-        url = 'https://github.com/weidai11/cryptopp/archive/%s' % zipname
-        tools.download(url, zipname)
-        tools.unzip(zipname)
-        os.unlink(zipname)
-        os.rename("cryptopp-CRYPTOPP_5_6_5", self.sources_folder)
-
-    def build(self):
+    def configure_cmake(self):
         cmake = CMake(self)
         if self.settings.os != "Windows":
             cmake.definitions["CMAKE_POSITION_INDEPENDENT_CODE"] = self.options.fPIC
@@ -36,24 +41,16 @@ class CryptoPPConan(ConanFile):
         cmake.definitions["BUILD_TESTING"] = False
         cmake.definitions["BUILD_DOCUMENTATION"] = False
         cmake.configure()
+        return cmake
+
+    def build(self):
+        cmake = self.configure_cmake()
         cmake.build()
 
     def package(self):
-        self.copy(pattern="License*", dst="licenses", src=self.sources_folder, ignore_case=True, keep_path=False)
-        self.copy(pattern="*.h", dst="include/cryptopp", src=".", keep_path=False)
-        self.copy(pattern="*.so", dst="lib", src=".", keep_path=False)
-        self.copy(pattern="*.dll", dst="bin", src=".", keep_path=False)
-        if self.settings.build_type == "Debug":
-            self.copy(pattern="*.pdb", dst="bin", src=".", keep_path=False)
-        self.copy(pattern="*.dylib", dst="lib", src=".", keep_path=False)
-        self.copy(pattern="*.a", dst="lib", src=".", keep_path=False)
-        self.copy(pattern="*.lib", dst="lib", src=".", keep_path=False)
+        self.copy(pattern="License.txt", dst="licenses", src=self.source_subfolder)
+        cmake = self.configure_cmake()
+        cmake.install()
 
     def package_info(self):
-        if str(self.settings.compiler) != "Visual Studio":
-            self.cpp_info.libs = ["cryptopp"]
-        else:
-            if self.options.shared:
-                self.cpp_info.libs = ["cryptopp-shared"]
-            else:
-                self.cpp_info.libs = ["cryptopp-static"]
+        self.cpp_info.libs = tools.collect_libs(self)
