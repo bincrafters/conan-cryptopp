@@ -40,11 +40,11 @@ class CryptoPPConan(ConanFile):
     def package(self):
         self.copy(pattern="License*", dst="licenses", src=self._source_subfolder, ignore_case=True, keep_path=False)
         self.copy(pattern="*.h", dst="include/cryptopp", src=".", keep_path=False)
-        self.copy(pattern="*.so", dst="lib", src=".", keep_path=False)
+        self.copy(pattern="*.so*", dst="lib", src=".", keep_path=False, symlinks=True)
         self.copy(pattern="*.dll", dst="bin", src=".", keep_path=False)
         if self.settings.build_type == "Debug":
             self.copy(pattern="*.pdb", dst="bin", src=".", keep_path=False)
-        self.copy(pattern="*.dylib", dst="lib", src=".", keep_path=False)
+        self.copy(pattern="*.dylib*", dst="lib", src=".", keep_path=False, symlinks=True)
         self.copy(pattern="*.a", dst="lib", src=".", keep_path=False)
         self.copy(pattern="*.lib", dst="lib", src=".", keep_path=False)
 
