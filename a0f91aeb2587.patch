@@ -1,0 +1,27 @@
+From a4acbb38da9c85ed3eb01281d325324a9f1802a5 Mon Sep 17 00:00:00 2001
+From: alanbirtles <alanbirtles@users.noreply.github.com>
+Date: Thu, 12 Apr 2018 14:59:15 +0100
+Subject: [PATCH] Workaround for #636
+
+Temporarily switch to AT&T syntax in ASJ for clang 5.0.0+ and apple clang 9.0.0+ to workaround https://bugs.llvm.org/show_bug.cgi?id=36144
+---
+ cpu.h | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/cpu.h b/cpu.h
+index fa0158be..68ac804c 100644
+--- a/cpu.h
++++ b/cpu.h
+@@ -614,7 +614,12 @@ inline int GetCacheLineSize()
+ 	#define GNU_AS2(x, y) #x ", " #y ";" NEW_LINE
+ 	#define GNU_AS3(x, y, z) #x ", " #y ", " #z ";" NEW_LINE
+ 	#define GNU_ASL(x) "\n" #x ":" NEW_LINE
++// clang 5.0.0 and apple clang 9.0.0 don't support numerical backward jumps
++#if (CRYPTOPP_LLVM_CLANG_VERSION >= 50000) || (CRYPTOPP_APPLE_CLANG_VERSION >= 90000)
++	#define GNU_ASJ(x, y, z) ATT_PREFIX ";" NEW_LINE #x " " #y #z ";" NEW_LINE INTEL_PREFIX ";" NEW_LINE
++#else
+ 	#define GNU_ASJ(x, y, z) #x " " #y #z ";" NEW_LINE
++#endif
+ 	#define AS1(x) GNU_AS1(x)
+ 	#define AS2(x, y) GNU_AS2(x, y)
+ 	#define AS3(x, y, z) GNU_AS3(x, y, z)

@@ -15,28 +15,27 @@ class CryptoPPConan(ConanFile):
     description = "Crypto++ Library is a free C++ class library of cryptographic schemes."
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False], "fPIC": [True, False]}
-    default_options = "shared=False", "fPIC=True"
+    default_options = {'shared': False, 'fPIC': True}
     generators = "cmake"
-    exports_sources = ["CMakeLists.txt", "CMakeLists.original.txt"]
+    exports_sources = ["CMakeLists.txt", "CMakeLists.original.txt", "a0f91aeb2587.patch"]
     exports = "LICENSE.md"
-    source_subfolder = "source_subfolder"
+    _source_subfolder = "source_subfolder"
 
     def source(self):
         archive_file = 'CRYPTOPP_7_0_0'
         url = 'https://github.com/weidai11/cryptopp/archive/%s.tar.gz' % archive_file
         tools.get(url)
-        os.rename("cryptopp-%s" % archive_file, self.source_subfolder)
-        shutil.move("CMakeLists.original.txt", os.path.join(self.source_subfolder, "CMakeLists.txt"))
+        os.rename("cryptopp-%s" % archive_file, self._source_subfolder)
+        shutil.move("CMakeLists.original.txt", os.path.join(self._source_subfolder, "CMakeLists.txt"))
+        tools.patch(patch_file="a0f91aeb2587.patch", base_path=self._source_subfolder)
 
     def configure(self):
         if self.settings.os == "Windows":
             self.options.remove("fPIC")
 
-    def configure_cmake(self):
+    def _configure_cmake(self):
         cmake = CMake(self)
-        if self.settings.os != "Windows":
-            cmake.definitions["CMAKE_POSITION_INDEPENDENT_CODE"] = self.options.fPIC
-        else:
+        if self.settings.os == "Windows":
             cmake.definitions["CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS"] = self.options.shared
         cmake.definitions["BUILD_STATIC"] = not self.options.shared
         cmake.definitions["BUILD_SHARED"] = self.options.shared
@@ -46,12 +45,12 @@ class CryptoPPConan(ConanFile):
         return cmake
 
     def build(self):
-        cmake = self.configure_cmake()
+        cmake = self._configure_cmake()
         cmake.build()
 
     def package(self):
-        self.copy(pattern="License.txt", dst="licenses", src=self.source_subfolder)
-        cmake = self.configure_cmake()
+        self.copy(pattern="License.txt", dst="licenses", src=self._source_subfolder)
+        cmake = self._configure_cmake()
         cmake.install()
 
     def package_info(self):
