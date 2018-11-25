@@ -17,7 +17,7 @@ class CryptoPPConan(ConanFile):
     options = {"shared": [True, False], "fPIC": [True, False]}
     default_options = {'shared': False, 'fPIC': True}
     generators = "cmake"
-    exports_sources = ["CMakeLists.txt", "CMakeLists.original.txt"]
+    exports_sources = ["CMakeLists.txt", "CMakeLists.original.txt", "a0f91aeb2587.patch"]
     exports = "LICENSE.md"
     _source_subfolder = "source_subfolder"
 
@@ -27,6 +27,7 @@ class CryptoPPConan(ConanFile):
         tools.get(url)
         os.rename("cryptopp-%s" % archive_file, self._source_subfolder)
         shutil.move("CMakeLists.original.txt", os.path.join(self._source_subfolder, "CMakeLists.txt"))
+        tools.patch(patch_file="a0f91aeb2587.patch", base_path=self._source_subfolder)
 
     def configure(self):
         if self.settings.os == "Windows":
