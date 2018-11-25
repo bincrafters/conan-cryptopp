@@ -13,7 +13,7 @@ class CryptoPPConan(ConanFile):
     license = "https://github.com/weidai11/cryptopp/blob/master/License.txt"
     options = {"shared": [True, False], "fPIC": [True, False]}
     default_options = {'shared': False, 'fPIC': True}
-    exports_sources = "CMakeLists.txt"
+    exports_sources = ["CMakeLists.txt", "a0f91aeb2587.patch"]
     _source_subfolder = "sources"
 
     def configure(self):
@@ -24,6 +24,7 @@ class CryptoPPConan(ConanFile):
         zipname = 'CRYPTOPP_5_6_5.tar.gz'
         tools.get('https://github.com/weidai11/cryptopp/archive/%s' % zipname)
         os.rename("cryptopp-CRYPTOPP_5_6_5", self._source_subfolder)
+        tools.patch(patch_file="a0f91aeb2587.patch", base_path=self._source_subfolder)
 
     def build(self):
         cmake = CMake(self)
