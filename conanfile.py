@@ -17,7 +17,7 @@ class CryptoPPConan(ConanFile):
     options = {"shared": [True, False], "fPIC": [True, False]}
     default_options = {'shared': False, 'fPIC': True}
     generators = "cmake"
-    exports_sources = ["CMakeLists.txt", "CMakeLists.original.txt", "a0f91aeb2587.patch"]
+    exports_sources = ["CMakeLists.txt", "CMakeLists.original.txt", "a0f91aeb2587.patch", "cryptopp-config.cmake"]
     exports = "LICENSE.md"
     _source_subfolder = "source_subfolder"
 
