@@ -25,6 +25,6 @@ index 6cef77bf..77680908 100644
  	#define AS1(x) GNU_AS1(x)
  	#define AS2(x, y) GNU_AS2(x, y)
  	#define AS3(x, y, z) GNU_AS3(x, y, z)
---
+-- 
 2.17.1
 

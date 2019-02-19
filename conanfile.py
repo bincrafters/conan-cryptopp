@@ -3,13 +3,11 @@
 
 from conans import ConanFile, CMake, tools
 import os
-import shutil
-
 
 
 class CryptoPPConan(ConanFile):
     name = "cryptopp"
-    version = "7.0.0"
+    version = "5.6.5"
     url = "https://github.com/bincrafters/conan-cryptopp"
     homepage = "https://github.com/weidai11/cryptopp"
     license = "BSL-1.0"
@@ -20,16 +18,15 @@ class CryptoPPConan(ConanFile):
     options = {"shared": [True, False], "fPIC": [True, False]}
     default_options = {'shared': False, 'fPIC': True}
     generators = "cmake"
-    exports_sources = ["CMakeLists.txt", "CMakeLists.original.txt", "a0f91aeb2587.patch", "cryptopp-config.cmake"]
+    exports_sources = ["CMakeLists.txt", "a0f91aeb2587.patch"]
     exports = "LICENSE.md"
     _source_subfolder = "source_subfolder"
 
     def source(self):
         archive_file = 'CRYPTOPP_%s' % self.version.replace('.', '_')
-        sha256 = "3ee97903882b5f58c88b6f9d2ce50fd1000be95479180c7b4681cd3f4c1c7629"
+        sha256 = "79fd5514b3b191a1c6d934cd989d5e058f4726a72a3dad2444bd1274a6aae686"
         tools.get("{}/archive/{}.tar.gz".format(self.homepage, archive_file), sha256=sha256)
         os.rename("cryptopp-%s" % archive_file, self._source_subfolder)
-        shutil.move("CMakeLists.original.txt", os.path.join(self._source_subfolder, "CMakeLists.txt"))
         tools.patch(patch_file="a0f91aeb2587.patch", base_path=self._source_subfolder)
 
     def config_options(self):
