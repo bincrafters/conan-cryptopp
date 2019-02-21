@@ -43,6 +43,8 @@ class CryptoPPConan(ConanFile):
         cmake.definitions["BUILD_SHARED"] = self.options.shared
         cmake.definitions["BUILD_TESTING"] = False
         cmake.definitions["BUILD_DOCUMENTATION"] = False
+        if self.settings.os == 'Android':
+            cmake.definitions["CRYPTOPP_NATIVE_ARCH"] = True
         cmake.configure()
         return cmake
 
