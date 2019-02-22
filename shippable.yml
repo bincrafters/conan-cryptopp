@@ -1,0 +1,35 @@
+language: python
+python:
+  - 3.6.4
+
+env:
+  matrix:
+    - CONAN_DOCKER_IMAGE: "conanio/gcc49"
+      CONAN_GCC_VERSIONS: "4.9"
+    - CONAN_DOCKER_IMAGE: "conanio/gcc5"
+      CONAN_GCC_VERSIONS: "5"
+    - CONAN_DOCKER_IMAGE: "conanio/gcc6"
+      CONAN_GCC_VERSIONS: "6"
+    - CONAN_DOCKER_IMAGE: "conanio/gcc7"
+      CONAN_GCC_VERSIONS: "7"
+    - CONAN_DOCKER_IMAGE: "conanio/gcc8"
+      CONAN_GCC_VERSIONS: "8"
+    - CONAN_DOCKER_IMAGE: "conanio/clang39"
+      CONAN_CLANG_VERSIONS: "3.9"
+    - CONAN_DOCKER_IMAGE: "conanio/clang40"
+      CONAN_CLANG_VERSIONS: "4.0"
+    - CONAN_DOCKER_IMAGE: "conanio/clang50"
+      CONAN_CLANG_VERSIONS: "5.0"
+    - CONAN_DOCKER_IMAGE: "conanio/clang60"
+      CONAN_CLANG_VERSIONS: "6.0"
+    - CONAN_DOCKER_IMAGE: "conanio/clang7"
+      CONAN_CLANG_VERSIONS: "7.0"
+
+build:
+  pre_ci_boot:
+    image_name: ${DOCKER_IMAGE}
+    image_tag: latest
+    pull: true
+  ci:
+    - .ci/install.sh
+    - .ci/run.sh
