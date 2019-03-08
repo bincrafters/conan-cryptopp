@@ -30,6 +30,8 @@ class CryptoPPConan(ConanFile):
         os.rename("cryptopp-%s" % archive_file, self._source_subfolder)
         shutil.move("CMakeLists.original.txt", os.path.join(self._source_subfolder, "CMakeLists.txt"))
         tools.patch(patch_file="a0f91aeb2587.patch", base_path=self._source_subfolder)
+        if self.settings.os == 'Android' and 'ANDROID_NDK_HOME' in os.environ:
+            shutil.copyfile(os.environ['ANDROID_NDK_HOME'] + '/sources/android/cpufeatures/cpu-features.h', os.path.join(self._source_subfolder, "cpu-features.h"))
 
     def config_options(self):
         if self.settings.os == "Windows":
