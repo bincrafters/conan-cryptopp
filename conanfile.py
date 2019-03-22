@@ -25,7 +25,7 @@ class CryptoPPConan(ConanFile):
 
     def source(self):
         archive_file = 'CRYPTOPP_%s' % self.version.replace('.', '_')
-        sha256 = "3ee97903882b5f58c88b6f9d2ce50fd1000be95479180c7b4681cd3f4c1c7629"
+        sha256 = "8a4e4773a39b0c07d7cea1b8be7a3f7a9d126bd3ac9a9f072f82d3a53a474a87"
         tools.get("{}/archive/{}.tar.gz".format(self.homepage, archive_file), sha256=sha256)
         os.rename("cryptopp-%s" % archive_file, self._source_subfolder)
         shutil.move("CMakeLists.original.txt", os.path.join(self._source_subfolder, "CMakeLists.txt"))
