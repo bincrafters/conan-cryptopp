@@ -19,7 +19,7 @@ class CryptoPPConan(ConanFile):
     options = {"shared": [True, False], "fPIC": [True, False]}
     default_options = {'shared': False, 'fPIC': True}
     generators = "cmake"
-    exports_sources = ["CMakeLists.txt", "CMakeLists.original.txt", "a0f91aeb2587.patch", "cryptopp-config.cmake"]
+    exports_sources = ["CMakeLists.txt", "CMakeLists.original.txt", "cryptopp-config.cmake"]
     exports = "LICENSE.md"
     _source_subfolder = "source_subfolder"
 
@@ -29,7 +29,9 @@ class CryptoPPConan(ConanFile):
         tools.get("{}/archive/{}.tar.gz".format(self.homepage, archive_file), sha256=sha256)
         os.rename("cryptopp-%s" % archive_file, self._source_subfolder)
         shutil.move("CMakeLists.original.txt", os.path.join(self._source_subfolder, "CMakeLists.txt"))
-        tools.patch(patch_file="a0f91aeb2587.patch", base_path=self._source_subfolder)
+        shutil.move("cryptopp-config.cmake", os.path.join(self._source_subfolder, "cryptopp-config.cmake"))
+        if self.settings.os == 'Android' and 'ANDROID_NDK_HOME' in os.environ:
+            shutil.copyfile(os.environ['ANDROID_NDK_HOME'] + '/sources/android/cpufeatures/cpu-features.h', os.path.join(self._source_subfolder, "cpu-features.h"))
 
     def config_options(self):
         if self.settings.os == "Windows":
@@ -43,6 +45,8 @@ class CryptoPPConan(ConanFile):
         cmake.definitions["BUILD_SHARED"] = self.options.shared
         cmake.definitions["BUILD_TESTING"] = False
         cmake.definitions["BUILD_DOCUMENTATION"] = False
+        if self.settings.os == 'Android':
+            cmake.definitions["CRYPTOPP_NATIVE_ARCH"] = True
         cmake.configure()
         return cmake
 
