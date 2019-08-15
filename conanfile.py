@@ -8,7 +8,7 @@ import shutil
 
 class CryptoPPConan(ConanFile):
     name = "cryptopp"
-    version = "8.1.0"
+    version = "8.2.0"
     url = "https://github.com/bincrafters/conan-cryptopp"
     homepage = "https://github.com/weidai11/cryptopp"
     license = "BSL-1.0"
@@ -25,7 +25,7 @@ class CryptoPPConan(ConanFile):
 
     def source(self):
         archive_file = 'CRYPTOPP_%s' % self.version.replace('.', '_')
-        sha256 = "8a4e4773a39b0c07d7cea1b8be7a3f7a9d126bd3ac9a9f072f82d3a53a474a87"
+        sha256 = "e3bcd48a62739ad179ad8064b523346abb53767bcbefc01fe37303412292343e"
         tools.get("{}/archive/{}.tar.gz".format(self.homepage, archive_file), sha256=sha256)
         os.rename("cryptopp-%s" % archive_file, self._source_subfolder)
         shutil.move("CMakeLists.original.txt", os.path.join(self._source_subfolder, "CMakeLists.txt"))
