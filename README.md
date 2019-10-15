@@ -2,7 +2,7 @@
 
 | Bintray | Windows | Linux & macOS |
 |:--------:|:---------:|:-----------------:|
-|[![Download](https://api.bintray.com/packages/bincrafters/public-conan/cryptopp%3Abincrafters/images/download.svg)](https://bintray.com/bincrafters/public-conan/cryptopp%3Abincrafters/_latestVersion)|[![Build status](https://ci.appveyor.com/api/projects/status/github/bincrafters/conan-cryptopp?svg=true)](https://ci.appveyor.com/project/BinCrafters/conan-cryptopp)|[![Build Status](https://travis-ci.org/bincrafters/conan-cryptopp.svg?)](https://travis-ci.org/bincrafters/conan-cryptopp)|
+|[![Download](https://api.bintray.com/packages/bincrafters/public-conan/cryptopp%3Abincrafters/images/download.svg)](https://bintray.com/bincrafters/public-conan/cryptopp%3Abincrafters/_latestVersion)|[![Build status](https://ci.appveyor.com/api/projects/status/github/bincrafters/conan-cryptopp?svg=true)](https://ci.appveyor.com/project/BinCrafters/conan-cryptopp)|[![Build Status](https://travis-ci.com/bincrafters/conan-cryptopp.svg?)](https://travis-ci.com/bincrafters/conan-cryptopp)|
 
 ## Conan.io Information
 
