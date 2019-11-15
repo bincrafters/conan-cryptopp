@@ -9,7 +9,6 @@ class CryptoPPConan(ConanFile):
     url = "https://github.com/bincrafters/conan-cryptopp"
     homepage = "https://github.com/weidai11/cryptopp"
     license = "BSL-1.0"
-    author = "Bincrafters <bincrafters@gmail.com>"
     description = "Crypto++ Library is a free C++ class library of cryptographic schemes."
     topics = ("conan", "cryptopp", "crypto", "cryptographic", "security")
     settings = "os", "compiler", "build_type", "arch"
